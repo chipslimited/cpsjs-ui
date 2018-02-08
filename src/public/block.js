@@ -4844,7 +4844,6 @@ var callback = function(error, result){
 
     console.log(JSON.stringify(t));
 
-    debugger
     if (func == 'lockFund') {
       // This is the sellEnergy() method
       var inputData = SolidityCoder.decodeParams(["uint256","uint256","uint256"], t.input.substring(10));
