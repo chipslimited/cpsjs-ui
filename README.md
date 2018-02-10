@@ -4,10 +4,6 @@ General purpose web interface for the CPS blockchain.
 
 Status: Alpha (for developers)
 
-# Requirement
-
-Build and run [eosd](https://github.com/eosio/eos) or direct requests to a public testnet or production node.
-
 # Configuration
 
 See [npm/config](http://npmjs.com/package/config) and [./config](./config).
@@ -96,15 +92,15 @@ for (var index = 0; index < block.transactions.length; index++) {
 
 # 部署参考
 
-* 假设有一台nginx服务器，运行在www.cps.com上，提供了http://www.cps.com/的服务，
+* 假设有一台nginx服务器，运行在www.cpscoin.org上，提供了http://www.cpscoin.org/的服务，
 * 且nginx在服务器上的页面位置是/var/www/html/
 * 假设以太坊的geth全节点运行在172.16.1.5上，并且在8080端口开放了json-rpc服务
-* 将json-rpc api映射到http://www.cps.com/eth/jsonrpc
+* 将json-rpc api映射到http://www.cpscoin.org/eth/jsonrpc
 
-现在需要将cpsjs-ui部署到http://www.cps.com/dashboard/上，并且配置好以太坊json-rpc转发
+现在需要将cpsjs-ui部署到http://www.cpscoin.org/dashboard/上，并且配置好以太坊json-rpc转发
 
 * json-rpc配置
-在nginx上进行配置，将http://www.cps.com/eth/jsonrpc的所有POST请求转发到http://172.16.1.5:8080/
+在nginx上进行配置，将http://www.cpscoin.org/eth/jsonrpc的所有POST请求转发到http://172.16.1.5:8080/
 
 * 生成目录
 
@@ -120,7 +116,7 @@ var ajaxUrl = "http://localhost:3000";
 ```
 修改为
 ```javascript
-var ajaxUrl = "http://www.cps.com/eth/jsonrpc";
+var ajaxUrl = "http://www.cpscoin.org/eth/jsonrpc";
 ```
 
 * 编译
