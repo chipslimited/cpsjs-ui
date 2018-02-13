@@ -1,8 +1,15 @@
+/**
+ * 
+ * web3.js 一个简单的命令行node程序，演示了web3.js的用法
+ * 使用方法，在命令行运行node web3.js
+ * 
+ */
+
 var Web3 = require('web3');
-var web3 = new Web3(new Web3.providers.HttpProvider("http://testnet1:8080"));
+var web3 = new Web3(new Web3.providers.HttpProvider("http://47.88.61.217:8080"));
 var coinbase = web3.eth.coinbase;
 var balance = web3.eth.getBalance(coinbase);
-console.log(balance);
+console.log("Balance of "+coinbase+":"+balance);
 
 var address = "0x8806F129305505a7BE40c6BEDB6B8587Aa92a56c";
 var abi=[ { "constant": true, "inputs": [ { "name": "cycle", "type": "uint256" } ], "name": "lockedDeadline", "outputs": [ { "name": "", "type": "uint256", "value": "1517913022" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "name", "outputs": [ { "name": "", "type": "string", "value": "V7SafeCPS" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_spender", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "approve", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "totalSupply", "outputs": [ { "name": "", "type": "uint256", "value": "1000000000000000000" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "fundsWallet", "outputs": [ { "name": "", "type": "address", "value": "0x4b14601a4389db52967f61b5e1aed099e49ca647" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_from", "type": "address" }, { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "transferFrom", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "decimals", "outputs": [ { "name": "", "type": "uint8", "value": "8" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "unitsOneEthCanBuy", "outputs": [ { "name": "", "type": "uint256", "value": "100" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_spender", "type": "address" }, { "name": "_subtractedValue", "type": "uint256" } ], "name": "decreaseApproval", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [ { "name": "_owner", "type": "address" } ], "name": "balanceOf", "outputs": [ { "name": "balance", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "totalEthInWei", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "symbol", "outputs": [ { "name": "", "type": "string", "value": "V7SafeCPS" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "totalLockAmount", "outputs": [ { "name": "", "type": "uint256", "value": "999999999999999999" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "transfer", "outputs": [ { "name": "", "type": "bool" } ], "payable": true, "stateMutability": "payable", "type": "function" }, { "constant": false, "inputs": [ { "name": "cycle", "type": "uint256" } ], "name": "unlockFund", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [ { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" }, { "name": "_data", "type": "bytes" } ], "name": "transfer", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [ { "name": "cycle", "type": "uint256" } ], "name": "lockedAmount", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_spender", "type": "address" }, { "name": "_addedValue", "type": "uint256" } ], "name": "increaseApproval", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [ { "name": "_owner", "type": "address" }, { "name": "_spender", "type": "address" } ], "name": "allowance", "outputs": [ { "name": "", "type": "uint256", "value": "0" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "cycle", "type": "uint256" }, { "name": "numOfSeconds", "type": "uint256" }, { "name": "amount", "type": "uint256" } ], "name": "lockFund", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "name": "name", "type": "string", "index": 0, "typeShort": "string", "bits": "", "displayName": "name", "template": "elements_input_string", "value": "V7SafeCPS" }, { "name": "symbol", "type": "string", "index": 1, "typeShort": "string", "bits": "", "displayName": "symbol", "template": "elements_input_string", "value": "V7SafeCPS" }, { "name": "decimals", "type": "uint8", "index": 2, "typeShort": "uint", "bits": "8", "displayName": "decimals", "template": "elements_input_uint", "value": "8" }, { "name": "totalSupply", "type": "uint256", "index": 3, "typeShort": "uint", "bits": "256", "displayName": "total Supply", "template": "elements_input_uint", "value": "1000000000000000000" } ], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "payable": true, "stateMutability": "payable", "type": "fallback" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "from", "type": "address" }, { "indexed": false, "name": "deadline", "type": "uint256" }, { "indexed": false, "name": "amount", "type": "uint256" } ], "name": "LockFund", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "from", "type": "address" }, { "indexed": false, "name": "deadline", "type": "uint256" }, { "indexed": false, "name": "amount", "type": "uint256" } ], "name": "UnlockFund", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "from", "type": "address" }, { "indexed": true, "name": "to", "type": "address" }, { "indexed": false, "name": "value", "type": "uint256" }, { "indexed": true, "name": "data", "type": "bytes" } ], "name": "Transfer", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "from", "type": "address" }, { "indexed": true, "name": "to", "type": "address" }, { "indexed": false, "name": "value", "type": "uint256" } ], "name": "Transfer", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "owner", "type": "address" }, { "indexed": true, "name": "spender", "type": "address" }, { "indexed": false, "name": "value", "type": "uint256" } ], "name": "Approval", "type": "event" } ];
@@ -12,12 +19,14 @@ var account4addr="0x013b5DcDc0FA541b63D4F1B784bfA847a3C89ABA";
 
 var Contract = web3.eth.contract(abi);
 var contract = Contract.at(address);
-console.log(contract.totalSupply());
-console.log(contract.balanceOf(account2addr));
-console.log(contract.balanceOf(account3addr));
-console.log(contract.balanceOf(account4addr));
+console.log("Total Supply:"+contract.totalSupply());
+console.log("Decimals:"+contract.decimals());
+console.log("Balance of "+account2addr+":"+contract.balanceOf(account2addr));
+console.log("Balance of "+account3addr+":"+contract.balanceOf(account3addr));
+console.log("Balance of "+account4addr+":"+contract.balanceOf(account4addr));
 
 var events = contract.allEvents({fromBlock: 0, toBlock: 'latest'});
+//获取所有CPS智能合约(部署在上47.88.61.217，地址0x8806F129305505a7BE40c6BEDB6B8587Aa92a56c)相关的历史交易，并打印出来
 events.get(function(error, logs){ 
     /**
      *
@@ -44,11 +53,11 @@ events.get(function(error, logs){
             console.log("deadline="+event.args.deadline);
             console.log("amount="+event.args.amount);
         }
+        if(event.event == "Transfer"){
+            console.log("转账 ");
+            console.log("to="+event.args.to);
+            console.log("amount="+event.args.value);
+        }
+        console.log("\n");
     })
 });
-
-var settx = contract.transferFrom(
-    "0x4b14601A4389DB52967f61b5e1Aed099E49Ca647","0xc4a68F3583D0B8757E38BaD5D6933F3f8c17252a", 1
-)
-
-console.log(settx);
