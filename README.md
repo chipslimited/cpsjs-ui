@@ -20,7 +20,7 @@ browserify src/utils/vib.js -o src/public/block.js && browserify src/utils/viz.j
 npm run dev
 ```
 
-# 以太坊区块链浏览器API web3.js
+# ERC20的区块链浏览器API web3.js
 
 例子参考src/utils/viz.js和src/utils/vib.js
 
@@ -92,15 +92,15 @@ for (var index = 0; index < block.transactions.length; index++) {
 
 # 部署参考
 
-* 假设有一台nginx服务器，运行在www.cpscoin.org上，提供了http://www.cpscoin.org/的服务，
+* 假设有一台nginx服务器，运行在 www.cpscoin.org 上，提供了 http://www.cpscoin.org/ 的服务，
 * 且nginx在服务器上的页面位置是/var/www/html/
 * 假设以太坊的geth全节点运行在172.16.1.5上，并且在8080端口开放了json-rpc服务
-* 将json-rpc api映射到http://www.cpscoin.org/eth/jsonrpc
+* 将json-rpc api映射到 http://www.cpscoin.org/eth/jsonrpc
 
-现在需要将cpsjs-ui部署到http://www.cpscoin.org/dashboard/上，并且配置好以太坊json-rpc转发
+现在需要将cpsjs-ui部署到 http://www.cpscoin.org/dashboard/ 上，并且配置好以太坊json-rpc转发
 
 * json-rpc配置
-在nginx上进行配置，将http://www.cpscoin.org/eth/jsonrpc的所有POST请求转发到http://172.16.1.5:8080/
+在nginx上进行配置，将 http://www.cpscoin.org/eth/jsonrpc 的所有POST请求转发到 http://172.16.1.5:8080/
 
 * 生成目录
 
