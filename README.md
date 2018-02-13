@@ -132,4 +132,4 @@ browserify src/utils/vib.js -o src/public/block.js && browserify src/utils/viz.j
 
 # Environment
 
-Node 8+ and Browser
+Node.js 8+ and browserify 
