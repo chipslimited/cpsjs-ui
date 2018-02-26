@@ -38,15 +38,19 @@ var toRealAmount = function (amount){
   return a.slice(0, a.length-decimals)+"."+a.slice(a.length-decimals)+" "+symbol;
 }
 
+/*
+//the following callback is used together with filter.watch(callback)
+//it monitors generation of new blocks
+
 var callback = function(error, result){
-  
+
   if (error) {
     console.log("error="+JSON.stringify(error));
     return;
   }
-  
+
   var block = web3.eth.getBlock(result, true);
-  console.log('block #' + block.number);
+  console.log('block #' + block.number + JSON.stringify(block));
 
   console.dir(block.transactions);
 
@@ -61,13 +65,13 @@ var callback = function(error, result){
 
     console.log(JSON.stringify(t));
 
-    if (func == 'lockFund') {
+    if (func == 'lockFund' || func == 'lockFundEx') {
       // This is the sellEnergy() method
       var inputData = SolidityCoder.decodeParams(["uint256","uint256","uint256"], t.input.substring(10));
       console.log(JSON.stringify(inputData));
       var amount = inputData[2].toString();
-      $('#transactions').prepend('<tr><td><a href="block.html#'+t.blockNumber+'" target="_blank">' + t.blockNumber + 
-        '</a></td><td>' + from + 
+      $('#transactions').prepend('<tr><td><a href="block.html#'+t.blockNumber+'" target="_blank">' + t.blockNumber +
+        '</a></td><td>' + from +
         '</td><td>锁定资金 '+ toRealAmount(amount) +""+
         '</td><td>解锁时间:' +inputData[1].toString()+ '秒以后</td></tr>');
     } else if (func == 'transfer') {
@@ -75,10 +79,50 @@ var callback = function(error, result){
       var inputData = SolidityCoder.decodeParams(["address","uint256"], t.input.substring(10));
       console.log(inputData);
       var amount = inputData[1].toString();
-      $('#transactions').prepend('<tr><td><a href="block.html#'+t.blockNumber+'" target="_blank">' + t.blockNumber + 
-        '</a></td><td>' + from + 
-        '</td><td>' + inputData[0].toString() + 
+      $('#transactions').prepend('<tr><td><a href="block.html#'+t.blockNumber+'" target="_blank">' + t.blockNumber +
+        '</a></td><td>' + from +
+        '</td><td>' + inputData[0].toString() +
         '</td><td>转账金额:' + toRealAmount(inputData[1].toString()) + '</td></tr>');
+    } else {
+      // Default log
+      console.log("func="+func+" t="+JSON.stringify(t));
+      $('#transactions').prepend('<tr><td>' + t.blockNumber +", func:["+func+ ']</td><td>' + from + '</td><td>' + t.to + '</td><td>' + t.input + '</td></tr>')
+    }
+  }
+}*/
+
+//the following callback is used together with events.callback and monitors contract new events
+var callback = function (error, logs) {
+
+  if(!Array.isArray(logs)){
+    logs = [logs];
+  }
+
+  for(var i in logs){
+    var t = logs[i];
+
+    // Decode from
+    var from = t.args.from==account ? symbol+" Owner" : t.args.from;
+
+    // Decode function
+    var func = t.event;
+
+    if (func == 'LockFund' || func == 'LockFundEx') {
+      $('#transactions').prepend('<tr><td><a href="block.html#'+t.blockNumber+'" target="_blank">' + t.blockNumber +
+        '</a></td><td>' + from +
+        '</td><td>锁定资金 '+ toRealAmount(t.args.amount) +""+
+        '</td><td>解锁时间:' + new Date(+(t.args.deadline+"000")) + '</td></tr>');
+    } else if (func == 'UnlockFundEx') {
+      $('#transactions').prepend('<tr><td><a href="block.html#'+t.blockNumber+'" target="_blank">' + t.blockNumber +
+        '</a></td><td>' + from +
+        '</td><td>解锁资金 '+ toRealAmount(t.args.unlockAmount) +""+
+        '</td><td>解锁时间:' + new Date(+(t.args.unlockTimestamp+"000")) + '<br/><br/>全部解锁日期' + new Date(+(t.args.deadline+"000")) + '</td></tr>');
+    } else if (func == 'Transfer') {
+      // This is the buyEnergy() method
+      $('#transactions').prepend('<tr><td><a href="block.html#'+t.blockNumber+'" target="_blank">' + t.blockNumber +
+        '</a></td><td>' + from +
+        '</td><td>' + t.args.to +
+        '</td><td>转账金额 ' + toRealAmount(t.args.value) + '</td></tr>');
     } else {
       // Default log
       console.log("func="+func+" t="+JSON.stringify(t));
@@ -91,35 +135,9 @@ var callback = function(error, result){
 events.get(function(error, logs){
   console.log(JSON.stringify(logs));
 
+  callback(error, logs);
   //已经获取了历史交易，现在开始监听新发生的交易
-  filter.watch(callback);
-  
-  for(var i in logs){
-    var t = logs[i];
-
-    // Decode from
-    var from = t.args.from==account ? symbol+" Owner" : t.args.from;
-
-    // Decode function
-    var func = t.event;
-
-    if (func == 'LockFund') {
-      $('#transactions').prepend('<tr><td><a href="block.html#'+t.blockNumber+'" target="_blank">' + t.blockNumber + 
-        '</a></td><td>' + from + 
-        '</td><td>锁定资金 '+ toRealAmount(t.args.amount) +""+
-        '</td><td>解锁时间:' + new Date(+(t.args.deadline+"000")) + '</td></tr>');
-    } else if (func == 'Transfer') {
-      // This is the buyEnergy() method
-      $('#transactions').prepend('<tr><td><a href="block.html#'+t.blockNumber+'" target="_blank">' + t.blockNumber + 
-        '</a></td><td>' + from + 
-        '</td><td>' + t.args.to + 
-        '</td><td>转账金额 ' + toRealAmount(t.args.value) + '</td></tr>');
-    } else {
-      // Default log
-      console.log("func="+func+" t="+JSON.stringify(t));
-      $('#transactions').prepend('<tr><td>' + t.blockNumber +", func:["+func+ ']</td><td>' + from + '</td><td>' + t.to + '</td><td>' + t.input + '</td></tr>')
-    }
-  }
+  events.watch(callback);
 })
 
 // Update labels every second
